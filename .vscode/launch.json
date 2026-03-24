@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-KiemtraGiuaKyApplication<kiemtra-giua-ky>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.midterm.kiemtra_giua_ky.KiemtraGiuaKyApplication",
+            "projectName": "kiemtra-giua-ky",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
