@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Shop</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+
+<h2 class="text-center mb-4">🛍️ SHOP PRODUCTS</h2>
+
+<form method="get" action="/" class="row g-2 mb-4">
+
+    <!-- SEARCH -->
+    <div class="col">
+        <input class="form-control"
+               type="text"
+               name="keyword"
+               placeholder="Search..."
+               th:value="${param.keyword != null ? param.keyword[0] : ''}">
+    </div>
+
+    <!-- CATEGORY -->
+    <div class="col">
+        <select class="form-select" name="category">
+
+            <option value="">All Category</option>
+
+            <option th:each="c : ${categories}"
+                    th:value="${c.id}"
+                    th:text="${c.name}"
+                    th:selected="${param.category != null and param.category[0] == c.id.toString()}">
+            </option>
+
+        </select>
+    </div>
+
+    <!-- SORT (🔥 FIX CHUẨN) -->
+    <div class="col">
+        <select class="form-select" name="sort">
+
+            <option value="">Sort</option>
+
+            <option value="asc"
+                    th:selected="${param.sort != null and param.sort[0] == 'asc'}">
+                Giá tăng
+            </option>
+
+            <option value="desc"
+                    th:selected="${param.sort != null and param.sort[0] == 'desc'}">
+                Giá giảm
+            </option>
+
+        </select>
+    </div>
+
+    <div class="col">
+        <button class="btn btn-primary w-100">Lọc</button>
+    </div>
+
+</form>
+
+<table class="table table-bordered table-hover text-center">
+    <thead class="table-dark">
+    <tr>
+        <th>Tên</th>
+        <th>Giá</th>
+        <th></th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="p : ${products}">
+        <td th:text="${p.name}"></td>
+        <td th:text="${p.price}"></td>
+        <td>
+            <a class="btn btn-success btn-sm"
+               th:href="@{/cart/add/{id}(id=${p.id})}">Add</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!-- PAGINATION (🔥 GIỮ FULL STATE) -->
+<div class="d-flex justify-content-between align-items-center">
+
+    <!-- PREVIOUS -->
+    <a class="btn btn-secondary"
+       th:if="${currentPage > 0}"
+       th:href="@{/(page=${currentPage - 1},
+                    keyword=${param.keyword},
+                    category=${param.category},
+                    sort=${param.sort})}">
+       ⬅ Previous
+    </a>
+
+    <span>
+        Page [[${currentPage + 1}]] / [[${totalPages}]]
+    </span>
+
+    <!-- NEXT -->
+    <a class="btn btn-secondary"
+       th:if="${currentPage + 1 < totalPages}"
+       th:href="@{/(page=${currentPage + 1},
+                    keyword=${param.keyword},
+                    category=${param.category},
+                    sort=${param.sort})}">
+       Next ➡
+    </a>
+
+</div>
+
+<br>
+
+<a class="btn btn-warning" href="/cart">🛒 Xem giỏ hàng</a>
+
+</body>
+</html>
